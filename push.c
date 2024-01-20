@@ -1,31 +1,26 @@
 #include "monty.h"
+
 /**
- * f_push - add node to the stack
- * @head: stack head
- * @counter: line_number
- * Return: no return
-*/
-// push.c
-
-
-void push(char *arg, int line_number) {
-    if (!arg || !isdigit(*arg) && *arg != '-' && *arg != '+') {
-        fprintf(stderr, "L%d: usage: push integer\n", line_number);
+ * push - Pushes an element to the stack
+ * @stack: Double pointer to the beginning of the stack
+ * @value: Value to be pushed onto the stack
+ */
+void push(stack_t **stack, int value)
+{
+    stack_t *new_node = malloc(sizeof(stack_t));
+    if (!new_node)
+    {
+        fprintf(stderr, "Error: malloc failed\n");
         exit(EXIT_FAILURE);
     }
 
-    int value = atoi(arg);
-    
-    if (value == 0 && *arg != '0') {
-        fprintf(stderr, "L%d: usage: push integer\n", line_number);
-        exit(EXIT_FAILURE);
-    }
+    new_node->n = value;
+    new_node->prev = NULL;
+    new_node->next = *stack;
 
-    if (stack.top == STACK_SIZE - 1) {
-        fprintf(stderr, "L%d: Error: Stack overflow\n", line_number);
-        exit(EXIT_FAILURE);
-    }
+    if (*stack)
+        (*stack)->prev = new_node;
 
-    stack.stack[++stack.top] = value;
+    *stack = new_node;
 }
 
